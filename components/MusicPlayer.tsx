@@ -1,66 +1,49 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useRef } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 
 const BAR_HEIGHTS = ['12px', '16px', '10px', '18px', '8px']
 
+type WindowWithAudio = Window & {
+    __ambientAudio?: HTMLAudioElement
+    __ambientPlaying?: boolean
+}
+
 export default function MusicPlayer() {
-    const [playing, setPlaying] = useState(false)
-    const audioRef = useRef<HTMLAudioElement | null>(null)
-    const startedRef = useRef(false)
+    // Read initial state directly from window — no useEffect needed
+    const [playing, setPlaying] = useState(() => {
+        if (typeof window === 'undefined') return false
+        return !!(window as WindowWithAudio).__ambientPlaying
+    })
 
-    function initAudio() {
-        if (!audioRef.current) {
-            audioRef.current = new Audio('/ambient.mp3')
-            audioRef.current.loop = true
-            audioRef.current.volume = 0.4
-        }
-    }
-
-    function startMusic() {
-        if (startedRef.current) return
-        startedRef.current = true
-        initAudio()
-        audioRef.current?.play().then(() => {
-            setPlaying(true)
-        }).catch(() => {
-            // Still blocked — do nothing, button still works manually
-            startedRef.current = false
-        })
-    }
-
-    useEffect(() => {
-        // Attempt autoplay immediately
-        initAudio()
-        audioRef.current?.play().then(() => {
-            startedRef.current = true
-            setPlaying(true)
-        }).catch(() => {
-            // Autoplay blocked — wait for first interaction
-            const onInteract = () => {
-                startMusic()
-                document.removeEventListener('click', onInteract)
-                document.removeEventListener('scroll', onInteract)
-                document.removeEventListener('keydown', onInteract)
-            }
-            document.addEventListener('click', onInteract)
-            document.addEventListener('scroll', onInteract)
-            document.addEventListener('keydown', onInteract)
-        })
-
-        return () => {
-            audioRef.current?.pause()
-        }
-    }, [])
+    const audioRef = useRef<HTMLAudioElement | null>(
+        typeof window !== 'undefined'
+            ? (window as WindowWithAudio).__ambientAudio ?? null
+            : null
+    )
 
     function toggle() {
+        if (!audioRef.current) {
+            const w = window as WindowWithAudio
+            if (w.__ambientAudio) {
+                audioRef.current = w.__ambientAudio
+            } else {
+                audioRef.current = new Audio('/ambient.mp3')
+                audioRef.current.loop = true
+                audioRef.current.volume = 0.4
+                w.__ambientAudio = audioRef.current
+            }
+        }
+
         if (playing) {
-            audioRef.current?.pause()
+            audioRef.current.pause()
+                ; (window as WindowWithAudio).__ambientPlaying = false
             setPlaying(false)
         } else {
-            initAudio()
-            audioRef.current?.play()
+            audioRef.current.play()
+                ; (window as WindowWithAudio).__ambientPlaying = true
             setPlaying(true)
         }
     }
