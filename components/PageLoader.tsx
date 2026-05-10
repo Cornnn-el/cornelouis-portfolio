@@ -43,6 +43,8 @@ export default function PageLoader() {
                 // Store reference so MusicPlayer can sync
                 ; (window as unknown as Record<string, unknown>).__ambientAudio = audio
                 ; (window as unknown as Record<string, unknown>).__ambientPlaying = true
+
+            window.dispatchEvent(new CustomEvent('ambient-started'))
         }
         document.body.style.overflow = ''
         setStage('done')

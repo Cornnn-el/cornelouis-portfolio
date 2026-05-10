@@ -1,7 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
-import { useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 
 const BAR_HEIGHTS = ['12px', '16px', '10px', '18px', '8px']
@@ -12,21 +11,27 @@ type WindowWithAudio = Window & {
 }
 
 export default function MusicPlayer() {
-    // Read initial state directly from window — no useEffect needed
-    const [playing, setPlaying] = useState(() => {
-        if (typeof window === 'undefined') return false
-        return !!(window as WindowWithAudio).__ambientPlaying
-    })
+    const [playing, setPlaying] = useState(false)
+    const audioRef = useRef<HTMLAudioElement | null>(null)
 
-    const audioRef = useRef<HTMLAudioElement | null>(
-        typeof window !== 'undefined'
-            ? (window as WindowWithAudio).__ambientAudio ?? null
-            : null
-    )
+    useEffect(() => {
+        // Listen for PageLoader firing the ambient-started event
+        const onAmbientStarted = () => {
+            const w = window as WindowWithAudio
+            if (w.__ambientAudio) {
+                audioRef.current = w.__ambientAudio
+            }
+            setPlaying(true)
+        }
+
+        window.addEventListener('ambient-started', onAmbientStarted)
+        return () => window.removeEventListener('ambient-started', onAmbientStarted)
+    }, [])
 
     function toggle() {
+        const w = window as WindowWithAudio
+
         if (!audioRef.current) {
-            const w = window as WindowWithAudio
             if (w.__ambientAudio) {
                 audioRef.current = w.__ambientAudio
             } else {
@@ -39,11 +44,11 @@ export default function MusicPlayer() {
 
         if (playing) {
             audioRef.current.pause()
-                ; (window as WindowWithAudio).__ambientPlaying = false
+            w.__ambientPlaying = false
             setPlaying(false)
         } else {
             audioRef.current.play()
-                ; (window as WindowWithAudio).__ambientPlaying = true
+            w.__ambientPlaying = true
             setPlaying(true)
         }
     }
