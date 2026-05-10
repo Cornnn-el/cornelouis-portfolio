@@ -71,7 +71,7 @@ export default function Hero() {
         <motion.div className="flex items-center gap-6 pt-2" variants={fadeUp} transition={t(0.6)}>
           <a
             href="#work"
-            className="rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold uppercase tracking-widest text-bg transition-colors duration-500 hover:bg-accent"
+            className="rounded-full bg-ink px-7 py-3.5 font-sans text-sm font-semibold uppercase tracking-widest text-bg transition-colors duration-500 hover:bg-accent whitespace-nowrap"
           >
             See my work
           </a>
@@ -89,12 +89,11 @@ export default function Hero() {
 
       {/* ── Bottom bar ── */}
       <motion.div
-        className="flex items-end justify-between border-t border-border pt-6"
+        className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between border-t border-border pt-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={t(0.9)}
       >
-        {/* Replace with: */}
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-[#4A7C59]" />
@@ -115,7 +114,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <span className="font-sans text-xs uppercase tracking-widest text-muted">
+        <span className="hidden md:block font-sans text-xs uppercase tracking-widest text-muted">
           Scroll to explore ↓
         </span>
       </motion.div>

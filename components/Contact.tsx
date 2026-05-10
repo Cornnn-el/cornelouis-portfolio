@@ -46,9 +46,9 @@ export default function Contact() {
                 >
                     <a
                         href="mailto:70crlouis02@gmail.com"
-                        className="group inline-flex items-center gap-4 font-sans text-lg font-semibold uppercase tracking-widest text-bg transition-colors duration-300 hover:text-accent md:text-xl"
+                        className="group inline-flex items-center gap-4 font-sans text-sm font-semibold uppercase tracking-widest text-bg transition-colors duration-300 hover:text-accent md:text-xl break-all"
                     >
-                        <span className="flex h-10 w-10 items-center justify-center rounded-full border border-bg/30 text-sm transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-ink">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-bg/30 text-sm transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-ink">
                             ↗
                         </span>
                         70crlouis02@gmail.com
