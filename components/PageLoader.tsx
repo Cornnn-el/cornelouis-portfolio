@@ -8,6 +8,26 @@ type Stage = 'loading' | 'prompt' | 'done'
 export default function PageLoader() {
     const [stage, setStage] = useState<Stage>('loading')
 
+    function playTick() {
+        try {
+            const AudioCtx =
+                window.AudioContext ||
+                (window as unknown as { webkitAudioContext: typeof AudioContext })
+                    .webkitAudioContext
+            const ctx = new AudioCtx()
+            const osc = ctx.createOscillator()
+            const gain = ctx.createGain()
+            osc.connect(gain)
+            gain.connect(ctx.destination)
+            osc.frequency.value = 880
+            osc.type = 'sine'
+            gain.gain.setValueAtTime(0.08, ctx.currentTime)
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15)
+            osc.start(ctx.currentTime)
+            osc.stop(ctx.currentTime + 0.15)
+        } catch (_) { }
+    }
+
     useEffect(() => {
         document.body.style.overflow = 'hidden'
         const timer = setTimeout(() => setStage('prompt'), 2200)
@@ -120,18 +140,64 @@ export default function PageLoader() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.55 }}
                     >
-                        <button
+                        {/* Primary button — volume on */}
+                        <motion.button
                             onClick={() => handleChoice(true)}
-                            className="rounded-full bg-ink px-8 py-4 font-sans text-sm font-semibold uppercase tracking-widest text-bg transition-colors duration-300 hover:bg-accent"
+                            onHoverStart={() => playTick()}
+                            className="group relative flex items-center gap-3 overflow-hidden rounded-full bg-ink px-8 py-4 font-sans text-sm font-semibold uppercase tracking-widest text-bg"
+                            whileHover={{ scale: 1.04 }}
+                            whileTap={{ scale: 0.97 }}
+                            transition={{ duration: 0.25, ease: 'easeOut' }}
                         >
-                            🔊 Turn on volume
-                        </button>
-                        <button
+                            {/* Ripple fill on hover */}
+                            <motion.span
+                                className="absolute inset-0 rounded-full bg-accent"
+                                initial={{ scale: 0, opacity: 0 }}
+                                whileHover={{ scale: 1, opacity: 1 }}
+                                transition={{ duration: 0.4, ease: 'easeOut' }}
+                                style={{ originX: '50%', originY: '50%' }}
+                            />
+
+                            {/* Speaker SVG icon — thin, modern */}
+                            <span className="relative z-10">
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                                    <motion.path
+                                        d="M15.54 8.46a5 5 0 0 1 0 7.07"
+                                        initial={{ opacity: 0, pathLength: 0 }}
+                                        whileHover={{ opacity: 1, pathLength: 1 }}
+                                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                                    />
+                                    <motion.path
+                                        d="M19.07 4.93a10 10 0 0 1 0 14.14"
+                                        initial={{ opacity: 0, pathLength: 0 }}
+                                        whileHover={{ opacity: 1, pathLength: 1 }}
+                                        transition={{ duration: 0.4, ease: 'easeOut', delay: 0.1 }}
+                                    />
+                                </svg>
+                            </span>
+
+                            <span className="relative z-10">Turn on volume</span>
+                        </motion.button>
+
+                        {/* Skip button */}
+                        <motion.button
                             onClick={() => handleChoice(false)}
-                            className="font-sans text-sm uppercase tracking-widest text-muted transition-colors duration-300 hover:text-ink"
+                            className="font-sans text-sm uppercase tracking-widest text-muted"
+                            whileHover={{ x: 4, color: '#1C1E21' }}
+                            transition={{ duration: 0.2, ease: 'easeOut' }}
                         >
                             Skip →
-                        </button>
+                        </motion.button>
                     </motion.div>
 
                 </motion.div>
