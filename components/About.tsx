@@ -113,7 +113,7 @@ export default function About() {
                         {/* Photo — smaller on mobile */}
                         <div className="relative h-[340px] w-[260px] md:h-[580px] md:w-[440px]">
                             <Image
-                                src="/about.png"
+                                src="/cornel-photo.png"
                                 alt="Cornelouis — developer and music lover"
                                 fill
                                 className="object-contain object-bottom drop-shadow-xl"
