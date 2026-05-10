@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 
 const BAR_HEIGHTS = ['12px', '16px', '10px', '18px', '8px']
@@ -8,18 +8,59 @@ const BAR_HEIGHTS = ['12px', '16px', '10px', '18px', '8px']
 export default function MusicPlayer() {
     const [playing, setPlaying] = useState(false)
     const audioRef = useRef<HTMLAudioElement | null>(null)
+    const startedRef = useRef(false)
+
+    function initAudio() {
+        if (!audioRef.current) {
+            audioRef.current = new Audio('/ambient.mp3')
+            audioRef.current.loop = true
+            audioRef.current.volume = 0.4
+        }
+    }
+
+    function startMusic() {
+        if (startedRef.current) return
+        startedRef.current = true
+        initAudio()
+        audioRef.current?.play().then(() => {
+            setPlaying(true)
+        }).catch(() => {
+            // Still blocked — do nothing, button still works manually
+            startedRef.current = false
+        })
+    }
+
+    useEffect(() => {
+        // Attempt autoplay immediately
+        initAudio()
+        audioRef.current?.play().then(() => {
+            startedRef.current = true
+            setPlaying(true)
+        }).catch(() => {
+            // Autoplay blocked — wait for first interaction
+            const onInteract = () => {
+                startMusic()
+                document.removeEventListener('click', onInteract)
+                document.removeEventListener('scroll', onInteract)
+                document.removeEventListener('keydown', onInteract)
+            }
+            document.addEventListener('click', onInteract)
+            document.addEventListener('scroll', onInteract)
+            document.addEventListener('keydown', onInteract)
+        })
+
+        return () => {
+            audioRef.current?.pause()
+        }
+    }, [])
 
     function toggle() {
         if (playing) {
             audioRef.current?.pause()
             setPlaying(false)
         } else {
-            if (!audioRef.current) {
-                audioRef.current = new Audio('/ambient.mp3')
-                audioRef.current.loop = true
-                audioRef.current.volume = 0.4
-            }
-            audioRef.current.play()
+            initAudio()
+            audioRef.current?.play()
             setPlaying(true)
         }
     }
