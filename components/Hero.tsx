@@ -19,7 +19,7 @@ const socials = [
 
 export default function Hero() {
   return (
-    <section className="relative flex min-h-screen flex-col justify-between bg-bg px-8 pb-10 pt-36 md:pt-32 md:px-16">
+    <section className="relative flex min-h-screen flex-col bg-bg px-8 pb-10 pt-36 md:pt-32 md:px-16">
 
       {/* ── Main content ── */}
       <motion.div
@@ -89,7 +89,7 @@ export default function Hero() {
 
       {/* ── Bottom bar ── */}
       <motion.div
-        className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between border-t border-border pt-6"
+        className="mt-16 md:mt-auto flex flex-col gap-3 md:flex-row md:items-end md:justify-between border-t border-border pt-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={t(0.9)}
