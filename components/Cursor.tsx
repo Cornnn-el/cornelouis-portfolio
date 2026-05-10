@@ -7,6 +7,9 @@ export default function Cursor() {
     const ringRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
+        // Don't run on touch devices
+        if (!window.matchMedia('(pointer: fine)').matches) return
+
         const dot = dotRef.current
         const ring = ringRef.current
         if (!dot || !ring) return

@@ -41,8 +41,8 @@ export default function Nav() {
           Cornelouis
         </Link>
 
-        {/* Desktop links */}
-        <nav className="flex items-center gap-8">
+        {/* Desktop links — add explicit display none */}
+        <nav className="hidden md:flex items-center gap-8">
           {links.map((link) => (
             <a
               key={link.href}
@@ -60,10 +60,10 @@ export default function Nav() {
           </a>
         </nav>
 
-        {/* Hamburger — mobile only */}
+        {/* Hamburger — ensure it only shows on mobile */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden z-50 flex flex-col gap-1.5 p-2"
+          className="flex md:hidden z-50 flex-col gap-1.5 p-2"
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
         >
           <motion.span

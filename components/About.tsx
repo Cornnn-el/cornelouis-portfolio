@@ -98,7 +98,7 @@ export default function About() {
                 {/* Right — photo */}
                 {/* Right — floating cutout photo */}
                 <motion.div
-                    className="relative flex justify-center md:justify-end"
+                    className="relative flex justify-center md:justify-end mt-8 md:mt-0"
                     initial={{ opacity: 0, x: 32 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -106,14 +106,14 @@ export default function About() {
                 >
                     <div className="relative">
 
-                        {/* Decorative circle behind the figure */}
-                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full border border-accent opacity-20" />
-                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-80 w-80 rounded-full bg-accent opacity-5" />
+                        {/* Decorative circles */}
+                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-64 w-64 md:h-96 md:w-96 rounded-full border border-accent opacity-20" />
+                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-52 w-52 md:h-80 md:w-80 rounded-full bg-accent opacity-5" />
 
-                        {/* Floating cutout — no overflow-hidden, transparent bg shows through */}
-                        <div className="relative h-[580px] w-[440px]">
+                        {/* Photo — smaller on mobile */}
+                        <div className="relative h-[340px] w-[260px] md:h-[580px] md:w-[440px]">
                             <Image
-                                src="/cornel-photo.png"
+                                src="/about.png"
                                 alt="Cornelouis — developer and music lover"
                                 fill
                                 className="object-contain object-bottom drop-shadow-xl"
@@ -121,7 +121,7 @@ export default function About() {
                             />
                         </div>
 
-                        {/* Caption badge + music player stacked */}
+                        {/* Caption badge */}
                         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3">
                             <div className="flex items-center gap-2 rounded-full bg-ink px-4 py-2">
                                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -134,7 +134,6 @@ export default function About() {
 
                     </div>
                 </motion.div>
-
             </div>
         </section>
     )

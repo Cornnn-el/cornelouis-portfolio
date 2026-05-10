@@ -19,7 +19,7 @@ const socials = [
 
 export default function Hero() {
   return (
-    <section className="relative flex min-h-screen flex-col justify-between bg-bg px-8 pb-10 pt-32 md:px-16">
+    <section className="relative flex min-h-screen flex-col justify-between bg-bg px-8 pb-10 pt-36 md:pt-32 md:px-16">
 
       {/* ── Main content ── */}
       <motion.div
