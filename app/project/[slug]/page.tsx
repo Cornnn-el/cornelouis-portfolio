@@ -7,12 +7,13 @@ export function generateStaticParams() {
     return projects.map((p) => ({ slug: p.slug }))
 }
 
-export default function ProjectPage({
+export default async function ProjectPage({
     params,
 }: {
-    params: { slug: string }
+    params: Promise<{ slug: string }>
 }) {
-    const project = projects.find((p) => p.slug === params.slug)
+    const { slug } = await params
+    const project = projects.find((p) => p.slug === slug)
     if (!project) notFound()
 
     return (
@@ -23,7 +24,6 @@ export default function ProjectPage({
             <section className="px-8 pb-16 pt-40 md:px-16">
                 <div className="mx-auto max-w-4xl">
 
-                    {/* Back link */}
                     <Link
                         href="/#work"
                         className="mb-12 inline-flex items-center gap-2 font-sans text-xs uppercase tracking-widest text-muted transition-colors duration-300 hover:text-ink"
@@ -31,7 +31,6 @@ export default function ProjectPage({
                         ← Back to work
                     </Link>
 
-                    {/* Tag row */}
                     <div className="mt-8 flex items-center gap-4">
                         <span className="font-sans text-xs font-bold text-accent">
                             {project.id}
@@ -44,20 +43,16 @@ export default function ProjectPage({
                         </span>
                     </div>
 
-                    {/* Title */}
                     <h1 className="mt-6 font-display text-4xl font-bold leading-tight text-ink md:text-6xl">
                         {project.title}
                     </h1>
 
-                    {/* Role + stack */}
                     <div className="mt-8 flex flex-wrap items-center gap-6 border-t border-border pt-8">
                         <div className="flex flex-col gap-1">
                             <span className="font-sans text-xs uppercase tracking-widest text-muted">
                                 Role
                             </span>
-                            <span className="font-sans text-sm text-ink">
-                                {project.role}
-                            </span>
+                            <span className="font-sans text-sm text-ink">{project.role}</span>
                         </div>
                         <div className="flex flex-col gap-1">
                             <span className="font-sans text-xs uppercase tracking-widest text-muted">
@@ -91,7 +86,7 @@ export default function ProjectPage({
             {/* Image placeholder */}
             <section className="px-8 md:px-16">
                 <div className="mx-auto max-w-4xl">
-                    <div className="h-[400px] w-full rounded-2xl bg-surface flex items-center justify-center border border-border">
+                    <div className="flex h-[400px] w-full items-center justify-center rounded-2xl border border-border bg-surface">
                         <span className="font-sans text-xs uppercase tracking-widest text-muted">
                             Project screenshots coming soon
                         </span>
@@ -101,7 +96,7 @@ export default function ProjectPage({
 
             {/* Case study body */}
             <section className="px-8 py-20 md:px-16">
-                <div className="mx-auto max-w-2xl flex flex-col gap-8">
+                <div className="mx-auto flex max-w-2xl flex-col gap-8">
                     {project.fullDescription.map((para, i) => (
                         <p key={i} className="font-sans text-lg leading-relaxed text-muted">
                             {para}
@@ -112,7 +107,7 @@ export default function ProjectPage({
 
             {/* Footer nav */}
             <section className="border-t border-border px-8 py-16 md:px-16">
-                <div className="mx-auto max-w-4xl flex items-center justify-between">
+                <div className="mx-auto flex max-w-4xl items-center justify-between">
                     <Link
                         href="/#work"
                         className="font-sans text-xs uppercase tracking-widest text-muted transition-colors duration-300 hover:text-ink"
