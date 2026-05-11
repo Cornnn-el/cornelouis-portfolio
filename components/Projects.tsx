@@ -2,6 +2,7 @@
 
 import { motion } from 'motion/react'
 import { projects } from '@/data/projects'
+import Link from 'next/link'
 
 const fadeUp = {
     hidden: { opacity: 0, y: 32 },
@@ -55,9 +56,11 @@ export default function Projects() {
                                     <span className="font-sans text-xs font-bold text-accent">{project.id}</span>
                                     <span className="font-sans text-xs uppercase tracking-widest text-muted">{project.category}</span>
                                 </div>
-                                <h3 className="font-display text-2xl font-bold text-ink transition-colors duration-300 group-hover:text-accent md:text-3xl">
-                                    {project.title}
-                                </h3>
+                                <Link href={`/project/${project.slug}`}>
+                                    <h3 className="font-display text-2xl font-bold text-ink transition-colors duration-300 group-hover:text-accent md:text-3xl">
+                                        {project.title}
+                                    </h3>
+                                </Link>
                                 <p className="font-sans text-base leading-relaxed text-muted">{project.description}</p>
                                 <div className="flex flex-wrap gap-2">
                                     {project.stack.map((tech) => (
@@ -69,15 +72,13 @@ export default function Projects() {
                             </div>
                             <div className="flex shrink-0 flex-row items-center gap-6 md:flex-col md:items-end md:gap-4">
                                 <span className="font-sans text-sm text-muted">{project.year}</span>
-                                {project.link ? (
-                                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-sm text-muted transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-bg">
-                                        ↗
-                                    </a>
-                                ) : (
-                                    <span className="rounded-full border border-border px-3 py-1 font-sans text-xs uppercase tracking-widest text-muted">
-                                        Local
-                                    </span>
-                                )}
+
+                                <Link
+                                    href={`/project/${project.slug}`}
+                                    className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-sm text-muted transition-all duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-bg"
+                                >
+                                    ↗
+                                </Link>
                             </div>
                         </div>
                     </motion.li>
