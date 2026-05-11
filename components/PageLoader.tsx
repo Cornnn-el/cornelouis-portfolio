@@ -30,8 +30,15 @@ export default function PageLoader() {
 
     useEffect(() => {
         document.body.style.overflow = 'hidden'
+        document.documentElement.style.overflow = 'hidden'
+
         const timer = setTimeout(() => setStage('prompt'), 2200)
-        return () => clearTimeout(timer)
+
+        return () => {
+            clearTimeout(timer)
+            document.body.style.overflow = ''
+            document.documentElement.style.overflow = ''
+        }
     }, [])
 
     function handleChoice(withSound: boolean) {
@@ -40,13 +47,12 @@ export default function PageLoader() {
             audio.loop = true
             audio.volume = 0.4
             audio.play().catch(() => { })
-                // Store reference so MusicPlayer can sync
                 ; (window as unknown as Record<string, unknown>).__ambientAudio = audio
                 ; (window as unknown as Record<string, unknown>).__ambientPlaying = true
-
             window.dispatchEvent(new CustomEvent('ambient-started'))
         }
         document.body.style.overflow = ''
+        document.documentElement.style.overflow = ''
         setStage('done')
     }
 
