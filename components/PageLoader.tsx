@@ -10,21 +10,9 @@ export default function PageLoader() {
 
     function playTick() {
         try {
-            const AudioCtx =
-                window.AudioContext ||
-                (window as unknown as { webkitAudioContext: typeof AudioContext })
-                    .webkitAudioContext
-            const ctx = new AudioCtx()
-            const osc = ctx.createOscillator()
-            const gain = ctx.createGain()
-            osc.connect(gain)
-            gain.connect(ctx.destination)
-            osc.frequency.value = 880
-            osc.type = 'sine'
-            gain.gain.setValueAtTime(0.08, ctx.currentTime)
-            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15)
-            osc.start(ctx.currentTime)
-            osc.stop(ctx.currentTime + 0.15)
+            const sound = new Audio('/hover-sound.mp3')
+            sound.volume = 0.5
+            sound.play()
         } catch (_) { }
     }
 
