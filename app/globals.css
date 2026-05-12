@@ -35,7 +35,47 @@ body {
   color: var(--color-bg);
 }
 
-/* Custom cursor — ring expands on hoverable elements */
+/* Hide native cursor completely */
+html,
+body,
+*,
+*::before,
+*::after {
+  cursor: none !important;
+}
+
+/* Force hide on interactive elements specifically */
+a,
+button,
+input,
+textarea,
+select,
+label,
+[role="button"] {
+  cursor: none !important;
+}
+
+@media (hover: none) {
+
+  html,
+  body,
+  *,
+  *::before,
+  *::after,
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  label {
+    cursor: auto !important;
+  }
+
+  .cursor-ring {
+    display: none;
+  }
+}
+
 .cursor-ring {
   transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
 }
@@ -44,13 +84,4 @@ body {
   width: 48px !important;
   height: 48px !important;
   opacity: 0.9 !important;
-}
-
-/* Hide cursor on touch devices — cursor makes no sense there */
-@media (hover: none) {
-
-  .cursor-ring,
-  [data-cursor] {
-    display: none;
-  }
 }

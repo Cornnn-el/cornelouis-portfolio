@@ -2,6 +2,7 @@ import { projects } from '@/data/projects'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Nav from '@/components/Nav'
+import Image from 'next/image'
 
 export function generateStaticParams() {
     return projects.map((p) => ({ slug: p.slug }))
@@ -83,14 +84,28 @@ export default async function ProjectPage({
                 </div>
             </section>
 
-            {/* Image placeholder */}
+            {/* Project images */}
             <section className="px-8 md:px-16">
-                <div className="mx-auto max-w-4xl">
-                    <div className="flex h-[400px] w-full items-center justify-center rounded-2xl border border-border bg-surface">
-                        <span className="font-sans text-xs uppercase tracking-widest text-muted">
-                            Project screenshots coming soon
-                        </span>
-                    </div>
+                <div className="mx-auto max-w-4xl flex flex-col gap-4">
+                    {project.images.length > 0 ? (
+                        project.images.map((src, i) => (
+                            <div key={i} className="relative w-full overflow-hidden rounded-2xl border border-border bg-surface">
+                                <Image
+                                    src={src}
+                                    alt={`${project.title} screenshot ${i + 1}`}
+                                    width={1200}
+                                    height={800}
+                                    className="w-full object-cover"
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <div className="flex h-[400px] w-full items-center justify-center rounded-2xl border border-border bg-surface">
+                            <span className="font-sans text-xs uppercase tracking-widest text-muted">
+                                Project screenshots coming soon
+                            </span>
+                        </div>
+                    )}
                 </div>
             </section>
 

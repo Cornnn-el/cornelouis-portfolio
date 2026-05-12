@@ -31,7 +31,9 @@ export const projects: Project[] = [
         stack: ['TypeScript', 'React', 'Vite', 'ReactBits'],
         link: 'https://synapse-presu.vercel.app',
         github: 'https://github.com/Cornnn-el',
-        images: [],
+        images: [
+            '/projects/presu-announcement.jpg',
+        ],
     },
     {
         id: '02',
@@ -50,7 +52,9 @@ export const projects: Project[] = [
         stack: ['Three.js', 'WebGL', 'JavaScript', 'HTML', 'CSS'],
         link: 'https://spore-drift.vercel.app',
         github: 'https://github.com/Cornnn-el',
-        images: [],
+        images: [
+            '/projects/spore-drift.jpg',
+        ],
     },
     {
         id: '03',
@@ -69,6 +73,8 @@ export const projects: Project[] = [
         stack: ['TypeScript', 'Next.js', 'Tailwind CSS', 'Canvas API', 'WebGL', 'Simplex Noise', 'OGL'],
         link: 'https://artgenstudio.vercel.app',
         github: 'https://github.com/Cornnn-el',
-        images: [],
+        images: [
+            '/projects/artgen-studio.jpg',
+        ],
     },
 ]
